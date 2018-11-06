@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FinancasCasal.Models;
+using FinancasCasal.Models.ViewModels;
 
 namespace FinancasCasal.Controllers {
     public class HomeController : Controller {

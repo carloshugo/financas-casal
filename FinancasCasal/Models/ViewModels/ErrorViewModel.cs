@@ -1,6 +1,6 @@
 using System;
 
-namespace FinancasCasal.Models {
+namespace FinancasCasal.Models.ViewModels {
     public class ErrorViewModel {
         public string RequestId { get; set; }
 
