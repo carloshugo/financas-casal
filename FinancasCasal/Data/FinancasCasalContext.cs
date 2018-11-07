@@ -13,6 +13,10 @@ namespace FinancasCasal.Models
         {
         }
 
-        public DbSet<FinancasCasal.Models.Pessoa> Pessoa { get; set; }
+        public DbSet<Conta> Conta { get; set; }
+        public DbSet<Despesa> Despesa { get; set; }
+        public DbSet<Fundo> Fundo { get; set; }
+        public DbSet<Pessoa> Pessoa { get; set; }
+        public DbSet<Transacao> Transacao { get; set; }
     }
 }
