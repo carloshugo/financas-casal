@@ -10,7 +10,7 @@ namespace FinancasCasal.Models
         public int CodigoAgencia { get; set; }
         public int CodigoConta { get; set; }
         public TipoConta TipoConta { get; set; }
-        public double Saldo { get; private set; }
+        public double Saldo { get; set; }
         public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
 
         public Conta()
@@ -24,6 +24,16 @@ namespace FinancasCasal.Models
             CodigoAgencia = codigoAgencia;
             CodigoConta = codigoConta;
             TipoConta = tipoConta;
+        }
+
+        public void AdicionarTransacao(Transacao transacao)
+        {
+            Transacoes.Add(transacao);
+        }
+
+        public void RemoverTransacao(Transacao transacao)
+        {
+            Transacoes.Remove(transacao);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace FinancasCasal.Models
         public Despesa Despesa { get; set; }
         public Fundo Fundo { get; set; }
         public Conta Conta { get; set; }
+        public bool Efetivada { get; set; }
 
         public Transacao()
         {
@@ -44,7 +45,7 @@ namespace FinancasCasal.Models
             Conta = conta;
         }
 
-        public Transacao(int id, string nome, double valor, DateTime data, Despesa despesa, Fundo fundo, Conta conta)
+        public Transacao(int id, string nome, double valor, DateTime data, Despesa despesa, Fundo fundo, Conta conta, bool efetivada)
         {
             Id = id;
             Nome = nome;
@@ -53,8 +54,20 @@ namespace FinancasCasal.Models
             Despesa = despesa;
             Fundo = fundo;
             Conta = conta;
+            Efetivada = efetivada;
         }
 
-        
+        public void Efetivar()
+        {
+            if (!Efetivada)
+            {
+                if (Fundo != null)
+                {
+                    Fundo.Saldo += Valor;
+                }
+                Conta.Saldo += Valor;
+                Efetivada = true;
+            }
+        }
     }
 }

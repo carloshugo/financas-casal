@@ -8,7 +8,7 @@ namespace FinancasCasal.Models
     public class Fundo {
         public int Id { get; private set; }
         public string Nome { get; set; }
-        public double Saldo { get; private set; }
+        public double Saldo { get; set; }
         public Pessoa Dono { get; set; }
         public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
 
