@@ -7,8 +7,8 @@ namespace FinancasCasal.Models
     public class Conta {
         public int Id { get; set; }
         public string Banco { get; set; }
-        public int CodigoAgencia { get; set; }
-        public int CodigoConta { get; set; }
+        public string CodigoAgencia { get; set; }
+        public string CodigoConta { get; set; }
         public TipoConta TipoConta { get; set; }
         public double Saldo { get; set; }
         public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
@@ -17,7 +17,7 @@ namespace FinancasCasal.Models
         {
         }
 
-        public Conta(int id, string banco, int codigoAgencia, int codigoConta, TipoConta tipoConta)
+        public Conta(int id, string banco, string codigoAgencia, string codigoConta, TipoConta tipoConta)
         {
             Id = id;
             Banco = banco;

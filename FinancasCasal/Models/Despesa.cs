@@ -16,7 +16,7 @@ namespace FinancasCasal.Models
         {
         }
 
-        public Despesa(int id, string nome, double valor, DateTime inicio, DateTime fim)
+        public Despesa(int id, string nome, double valor, DateTime inicio, DateTime? fim)
         {
             Id = id;
             Nome = nome;

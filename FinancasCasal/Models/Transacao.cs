@@ -16,16 +16,17 @@ namespace FinancasCasal.Models
         {
         }
 
-        public Transacao(int id, string nome, double valor, DateTime data, Conta conta)
+        public Transacao(int id, string nome, double valor, DateTime data, Conta conta, bool efetivada)
         {
             Id = id;
             Nome = nome;
             Valor = valor;
             Data = data;
             Conta = conta;
+            Efetivada = efetivada;
         }
 
-        public Transacao(int id, string nome, double valor, DateTime data, Despesa despesa, Conta conta)
+        public Transacao(int id, string nome, double valor, DateTime data, Despesa despesa, Conta conta, bool efetivada)
         {
             Id = id;
             Nome = nome;
@@ -33,9 +34,10 @@ namespace FinancasCasal.Models
             Data = data;
             Despesa = despesa;
             Conta = conta;
+            Efetivada = efetivada;
         }
 
-        public Transacao(int id, string nome, double valor, DateTime data, Fundo fundo, Conta conta)
+        public Transacao(int id, string nome, double valor, DateTime data, Fundo fundo, Conta conta, bool efetivada)
         {
             Id = id;
             Nome = nome;
@@ -43,6 +45,7 @@ namespace FinancasCasal.Models
             Data = data;
             Fundo = fundo;
             Conta = conta;
+            Efetivada = efetivada;
         }
 
         public Transacao(int id, string nome, double valor, DateTime data, Despesa despesa, Fundo fundo, Conta conta, bool efetivada)
