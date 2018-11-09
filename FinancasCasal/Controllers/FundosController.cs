@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinancasCasal.Models;
+using FinancasCasal.Models.ViewModels;
 using FinancasCasal.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,12 @@ namespace FinancasCasal.Controllers
     public class FundosController : Controller
     {
         private readonly FundoService _fundoService;
+        private readonly PessoaService _pessoaService;
 
-        public FundosController(FundoService fundoService)
+        public FundosController(FundoService fundoService, PessoaService pessoaService)
         {
             _fundoService = fundoService;
+            _pessoaService = pessoaService;
         }
 
         public IActionResult Index()
@@ -25,7 +28,9 @@ namespace FinancasCasal.Controllers
 
         public IActionResult Criacao()
         {
-            return View();
+            var pessoas = _pessoaService.ObterTodos();
+            var viewModel = new FundoFormViewModel { Pessoas = pessoas};
+            return View(viewModel);
         }
 
         [HttpPost]

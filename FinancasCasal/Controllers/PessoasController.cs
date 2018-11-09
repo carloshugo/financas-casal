@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FinancasCasal.Models;
+using FinancasCasal.Models.ViewModels;
 
 namespace FinancasCasal.Controllers
 {
     public class PessoasController : Controller
     {
         private readonly FinancasCasalContext _context;
+        
 
         public PessoasController(FinancasCasalContext context)
         {
