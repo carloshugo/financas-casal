@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinancasCasal.Models;
 using FinancasCasal.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,5 +22,19 @@ namespace FinancasCasal.Controllers
             var list = _fundoService.ObterTodos();
             return View(list);
         }
+
+        public IActionResult Criacao()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Criar(Fundo fundo)
+        {
+            _fundoService.Inserir(fundo);
+            return RedirectToAction(nameof(Index));
+        }
+        
     }
 }

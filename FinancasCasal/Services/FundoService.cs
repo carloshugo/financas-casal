@@ -19,5 +19,11 @@ namespace FinancasCasal.Services
         {
             return _context.Fundo.ToList();
         }
+
+        public void Inserir(Fundo fundo)
+        {
+            _context.Add(fundo);
+            _context.SaveChanges();
+        }
     }
 }
