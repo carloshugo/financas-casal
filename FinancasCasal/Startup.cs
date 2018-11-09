@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using FinancasCasal.Models;
 using FinancasCasal.Data;
+using FinancasCasal.Services;
 
 namespace FinancasCasal
 {
@@ -42,6 +43,7 @@ namespace FinancasCasal
                     builder.MigrationsAssembly("FinancasCasal")));
 
             services.AddScoped<PopulacaoService>();
+            services.AddScoped<FundoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
