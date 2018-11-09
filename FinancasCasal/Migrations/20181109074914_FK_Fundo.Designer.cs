@@ -3,14 +3,16 @@ using System;
 using FinancasCasal.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinancasCasal.Migrations
 {
     [DbContext(typeof(FinancasCasalContext))]
-    partial class FinancasCasalContextModelSnapshot : ModelSnapshot
+    [Migration("20181109074914_FK_Fundo")]
+    partial class FK_Fundo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

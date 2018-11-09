@@ -23,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.Saldo)
             </th>
             <th>
-                Dono
+                @Html.DisplayNameFor(model => model.Pessoa)
             </th>
             <th>
 
@@ -41,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Saldo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Dono.Nome)
+                @Html.DisplayFor(modelItem => item.Pessoa.Nome)
             </td>
             <td>
                 <a asp-action="Editar" asp-route-id="@item.Id">Editar</a>

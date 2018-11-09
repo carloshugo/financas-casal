@@ -22,6 +22,8 @@ namespace FinancasCasal.Services
 
         public void Inserir(Fundo fundo)
         {
+            fundo.Pessoa = _context.Pessoa.First();
+
             _context.Add(fundo);
             _context.SaveChanges();
         }

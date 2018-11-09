@@ -9,7 +9,8 @@ namespace FinancasCasal.Models
         public int Id { get; private set; }
         public string Nome { get; set; }
         public double Saldo { get; set; }
-        public Pessoa Dono { get; set; }
+        public Pessoa Pessoa { get; set; }
+        public int PessoaId { get; set; }
         public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
 
         public Fundo()
@@ -22,7 +23,7 @@ namespace FinancasCasal.Models
             Id = id;
             Nome = nome;
             Saldo = saldo;
-            Dono = dono;
+            Pessoa = dono;
         }
 
         public void AdicionarTransacao(Transacao transacao)
