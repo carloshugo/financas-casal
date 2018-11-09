@@ -25,5 +25,17 @@ namespace FinancasCasal.Services
             _context.Add(fundo);
             _context.SaveChanges();
         }
+
+        public Fundo ObterPorId(int id)
+        {
+            return _context.Fundo.FirstOrDefault(obj => obj.Id == id);
+        }
+
+        public void Remover(int id)
+        {
+            var obj = _context.Fundo.Find(id);
+            _context.Fundo.Remove(obj);
+            _context.SaveChanges();
+        }
     }
 }

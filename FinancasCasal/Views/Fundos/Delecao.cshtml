@@ -1,0 +1,34 @@
+﻿@model FinancasCasal.Models.Fundo
+
+@{
+    ViewData["Title"] = "Deletar Fundo";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h3>Você tem certeza que deseja deletar o fundo?</h3>
+
+<div>
+    <h4>Fundo</h4>
+    <hr/>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Saldo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Saldo)
+        </dd>
+    </dl>
+    <form asp-action="Deletar">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Deletar" class="btn btn-danger"/>        
+        <a asp-action="Index">Voltar para Lista</a>
+    </form>
+</div>
+

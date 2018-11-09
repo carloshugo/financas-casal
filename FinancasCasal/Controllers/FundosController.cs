@@ -40,6 +40,29 @@ namespace FinancasCasal.Controllers
             _fundoService.Inserir(fundo);
             return RedirectToAction(nameof(Index));
         }
-        
+
+        public IActionResult Delecao(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var obj = _fundoService.ObterPorId(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Deletar(int id)
+        {
+            _fundoService.Remover(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }
