@@ -63,6 +63,20 @@ namespace FinancasCasal.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult Detalhes(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var obj = _fundoService.ObterPorId(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
 
     }
 }

@@ -1,8 +1,7 @@
 ﻿using FinancasCasal.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinancasCasal.Services
 {
@@ -28,7 +27,7 @@ namespace FinancasCasal.Services
 
         public Fundo ObterPorId(int id)
         {
-            return _context.Fundo.FirstOrDefault(obj => obj.Id == id);
+            return _context.Fundo.Include(obj => obj.Pessoa).FirstOrDefault(obj => obj.Id == id);
         }
 
         public void Remover(int id)
