@@ -1,6 +1,8 @@
 ﻿using FinancasCasal.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FinancasCasal.Services
 {
@@ -13,9 +15,9 @@ namespace FinancasCasal.Services
             _context = context;
         }
 
-        public List<Pessoa> ObterTodos()
+        public async Task<List<Pessoa>> ObterTodosAsync()
         {
-            return _context.Pessoa.OrderBy(p => p.Nome).ToList();
+            return await _context.Pessoa.OrderBy(p => p.Nome).ToListAsync();
         }
     }
 }

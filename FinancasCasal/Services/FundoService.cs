@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using FinancasCasal.Services.Exceptions;
+using System.Threading.Tasks;
 
 namespace FinancasCasal.Services
 {
@@ -15,39 +16,40 @@ namespace FinancasCasal.Services
             _context = context;
         }
 
-        public List<Fundo> ObterTodos()
+        public async Task<List<Fundo>> ObterTodosAsync()
         {
-            return _context.Fundo.ToList();
+            return await _context.Fundo.ToListAsync();
         }
 
-        public void Inserir(Fundo fundo)
+        public async Task InserirAsync(Fundo fundo)
         {
             _context.Add(fundo);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Fundo ObterPorId(int id)
+        public async Task<Fundo> ObterPorIdAsync(int id)
         {
-            return _context.Fundo.Include(obj => obj.Pessoa).FirstOrDefault(obj => obj.Id == id);
+            return await _context.Fundo.Include(obj => obj.Pessoa).FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public void Remover(int id)
+        public async Task RemoverAsync(int id)
         {
             var obj = _context.Fundo.Find(id);
             _context.Fundo.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Atualizar(Fundo obj)
+        public async Task AtualizarAsync(Fundo obj)
         {
-            if (!_context.Fundo.Any(x => x.Id == obj.Id))
+            bool temAlgum = await _context.Fundo.AnyAsync(x => x.Id == obj.Id);
+            if (!temAlgum)
             {
                 throw new NotFoundException("Id não encontrado");
             }
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e)
             {

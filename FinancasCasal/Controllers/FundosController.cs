@@ -22,40 +22,40 @@ namespace FinancasCasal.Controllers
             _pessoaService = pessoaService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _fundoService.ObterTodos();
+            var list = await _fundoService.ObterTodosAsync();
             return View(list);
         }
 
-        public IActionResult Criacao()
+        public async Task<IActionResult> Criacao()
         {
-            var pessoas = _pessoaService.ObterTodos();
+            var pessoas = await _pessoaService.ObterTodosAsync();
             var viewModel = new FundoFormViewModel { Pessoas = pessoas };
             return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Criar(Fundo fundo)
+        public async Task<IActionResult> Criar(Fundo fundo)
         {
             if (!ModelState.IsValid)
             {
-                List<Pessoa> pessoas = _pessoaService.ObterTodos();
+                List<Pessoa> pessoas = await _pessoaService.ObterTodosAsync();
                 FundoFormViewModel viewModel = new FundoFormViewModel { Fundo = fundo, Pessoas = pessoas };
                 return View(viewModel);
             }
-            _fundoService.Inserir(fundo);
+            await _fundoService.InserirAsync(fundo);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Delecao(int? id)
+        public async Task<IActionResult> Delecao(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
-            var obj = _fundoService.ObterPorId(id.Value);
+            var obj = await _fundoService.ObterPorIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
@@ -65,19 +65,19 @@ namespace FinancasCasal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Deletar(int id)
+        public async Task<IActionResult> Deletar(int id)
         {
-            _fundoService.Remover(id);
+            await _fundoService.RemoverAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Detalhes(int? id)
+        public async Task<IActionResult> Detalhes(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não provido (null)" });
             }
-            var obj = _fundoService.ObterPorId(id.Value);
+            var obj = await _fundoService.ObterPorIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
@@ -85,29 +85,29 @@ namespace FinancasCasal.Controllers
             return View(obj);
         }
 
-        public IActionResult Edicao(int? id)
+        public async Task<IActionResult> Edicao(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não provido (null)" });
             }
-            var obj = _fundoService.ObterPorId(id.Value);
+            var obj = await _fundoService.ObterPorIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
-            List<Pessoa> pessoas = _pessoaService.ObterTodos();
+            List<Pessoa> pessoas = await _pessoaService.ObterTodosAsync();
             FundoFormViewModel viewModel = new FundoFormViewModel { Fundo = obj, Pessoas = pessoas };
             return View(viewModel);
         }
 
         [HttpPost("{id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Editar(int id, Fundo fundo)
+        public async Task<IActionResult> Editar(int id, Fundo fundo)
         {
             if (!ModelState.IsValid)
             {
-                List<Pessoa> pessoas = _pessoaService.ObterTodos();
+                List<Pessoa> pessoas = await _pessoaService.ObterTodosAsync();
                 FundoFormViewModel viewModel = new FundoFormViewModel { Fundo = fundo, Pessoas = pessoas };
                 return View(viewModel);
             }
@@ -118,7 +118,7 @@ namespace FinancasCasal.Controllers
             }
             try
             {
-                _fundoService.Atualizar(fundo);
+                await _fundoService.AtualizarAsync(fundo);
                 return RedirectToAction(nameof(Index));
 
             }
