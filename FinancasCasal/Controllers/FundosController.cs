@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FinancasCasal.Models;
 using FinancasCasal.Models.ViewModels;
 using FinancasCasal.Services;
+using FinancasCasal.Services.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinancasCasal.Controllers
@@ -29,7 +30,7 @@ namespace FinancasCasal.Controllers
         public IActionResult Criacao()
         {
             var pessoas = _pessoaService.ObterTodos();
-            var viewModel = new FundoFormViewModel { Pessoas = pessoas};
+            var viewModel = new FundoFormViewModel { Pessoas = pessoas };
             return View(viewModel);
         }
 
@@ -75,6 +76,46 @@ namespace FinancasCasal.Controllers
                 return NotFound();
             }
             return View(obj);
+        }
+
+        public IActionResult Edicao(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var obj = _fundoService.ObterPorId(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            List<Pessoa> pessoas = _pessoaService.ObterTodos();
+            FundoFormViewModel viewModel = new FundoFormViewModel { Fundo = obj, Pessoas = pessoas };
+            return View(viewModel);
+        }
+
+        [HttpPost("{id}")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Editar(int id, Fundo fundo)
+        {
+            if (id != fundo.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                _fundoService.Atualizar(fundo);
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (DbConcurrencyException)
+            {
+                return BadRequest();
+            }
         }
 
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using FinancasCasal.Services.Exceptions;
 
 namespace FinancasCasal.Services
 {
@@ -35,6 +36,23 @@ namespace FinancasCasal.Services
             var obj = _context.Fundo.Find(id);
             _context.Fundo.Remove(obj);
             _context.SaveChanges();
+        }
+
+        public void Atualizar(Fundo obj)
+        {
+            if (!_context.Fundo.Any(x => x.Id == obj.Id))
+            {
+                throw new NotFoundException("Id não encontrado");
+            }
+            try
+            {
+                _context.Update(obj);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbConcurrencyException(e.Message);
+            }
         }
     }
 }

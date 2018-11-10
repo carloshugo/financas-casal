@@ -1,0 +1,33 @@
+﻿@model FinancasCasal.Models.ViewModels.FundoFormViewModel
+
+@{
+    ViewData["Title"] = "Edição";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>Fundo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Editar">
+            <input type="hidden" asp-for="Fundo.Id"/>
+            <div class="form-group">
+                <label asp-for="Fundo.Nome" class="control-label"></label>
+                <input asp-for="Fundo.Nome" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Fundo.Saldo" class="control-label"></label>
+                <input asp-for="Fundo.Saldo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Fundo.PessoaId" class="control-label"></label>
+                <select asp-for="Fundo.PessoaId" asp-items="@(new SelectList(Model.Pessoas, "Id", "Nome"))" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+

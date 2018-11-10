@@ -6,7 +6,7 @@ namespace FinancasCasal.Models
 {
 
     public class Fundo {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
         public double Saldo { get; set; }
         public Pessoa Pessoa { get; set; }
