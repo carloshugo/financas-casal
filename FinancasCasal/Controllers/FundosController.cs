@@ -39,6 +39,12 @@ namespace FinancasCasal.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Criar(Fundo fundo)
         {
+            if (!ModelState.IsValid)
+            {
+                List<Pessoa> pessoas = _pessoaService.ObterTodos();
+                FundoFormViewModel viewModel = new FundoFormViewModel { Fundo = fundo, Pessoas = pessoas };
+                return View(viewModel);
+            }
             _fundoService.Inserir(fundo);
             return RedirectToAction(nameof(Index));
         }
@@ -99,6 +105,13 @@ namespace FinancasCasal.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Editar(int id, Fundo fundo)
         {
+            if (!ModelState.IsValid)
+            {
+                List<Pessoa> pessoas = _pessoaService.ObterTodos();
+                FundoFormViewModel viewModel = new FundoFormViewModel { Fundo = fundo, Pessoas = pessoas };
+                return View(viewModel);
+            }
+
             if (id != fundo.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id provido não casa com o Id do Objeto" });
