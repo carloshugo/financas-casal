@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FinancasCasal.Models;
@@ -46,12 +47,12 @@ namespace FinancasCasal.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
             var obj = _fundoService.ObterPorId(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
             return View(obj);
         }
@@ -68,12 +69,12 @@ namespace FinancasCasal.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não provido (null)" });
             }
             var obj = _fundoService.ObterPorId(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
             return View(obj);
         }
@@ -82,12 +83,12 @@ namespace FinancasCasal.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não provido (null)" });
             }
             var obj = _fundoService.ObterPorId(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
             List<Pessoa> pessoas = _pessoaService.ObterTodos();
             FundoFormViewModel viewModel = new FundoFormViewModel { Fundo = obj, Pessoas = pessoas };
@@ -100,7 +101,7 @@ namespace FinancasCasal.Controllers
         {
             if (id != fundo.Id)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = "Id provido não casa com o Id do Objeto" });
             }
             try
             {
@@ -108,16 +109,20 @@ namespace FinancasCasal.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
-            catch (NotFoundException)
+            catch (ApplicationException e)
             {
-                return NotFound();
-            }
-            catch (DbConcurrencyException)
-            {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 
-
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
+        }
     }
 }
