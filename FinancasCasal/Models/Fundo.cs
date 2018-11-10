@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace FinancasCasal.Models
@@ -8,8 +9,11 @@ namespace FinancasCasal.Models
     public class Fundo {
         public int Id { get; set; }
         public string Nome { get; set; }
+        [DataType(DataType.Currency)]
         public double Saldo { get; set; }
+        [Display(Name = "Dono")]
         public Pessoa Pessoa { get; set; }
+        [Display(Name = "Dono")]
         public int PessoaId { get; set; }
         public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
 
