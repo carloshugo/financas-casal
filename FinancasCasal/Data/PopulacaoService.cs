@@ -42,8 +42,8 @@ namespace FinancasCasal.Data
             Fundo f1 = new Fundo(1, "Lazer", 10.0, p1);
             Fundo f2 = new Fundo(2, "Lazer", 10.0, p2);
 
-            Transacao t1 = new Transacao(1, "Energia Mês NOV", 255.63, new DateTime(2018, 11, 5), c2, true);
-            Transacao t2 = new Transacao(2, "Almoço Parque Shopping", 50.0, new DateTime(2018, 11, 4), f2, c1, true);
+            Transacao t1 = new Transacao( 1, "Energia Mês NOV", 255.63, new DateTime(2018, 11, 5), d1, c2, true, true);
+            Transacao t2 = new Transacao(2, "Almoço Parque Shopping", 50.0, new DateTime(2018, 11, 4), f2, c1, true, true);
 
             _context.Conta.AddRange(c1, c2, c3, c4);
             _context.Despesa.AddRange(d1, d2, d3);

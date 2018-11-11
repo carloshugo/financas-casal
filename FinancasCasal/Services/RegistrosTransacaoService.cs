@@ -35,5 +35,26 @@ namespace FinancasCasal.Services
                 .OrderByDescending(x => x.Data)
                 .ToListAsync();
         }
+
+        public async Task<List<IGrouping<Conta, Transacao>>> ObterGrupoPorDataAsync(DateTime? inicio, DateTime? fim)
+        {
+            var result = from obj in _context.Transacao select obj;
+            if (inicio.HasValue)
+            {
+                result = result.Where(x => x.Data >= inicio.Value);
+            }
+            if (fim.HasValue)
+            {
+                result = result.Where(x => x.Data <= fim.Value);
+            }
+            return await result
+                .Include(x => x.Conta)
+                .Include(x => x.Despesa)
+                .Include(x => x.Fundo)
+                .Include(x => x.Fundo.Pessoa)
+                .OrderByDescending(x => x.Data)
+                .GroupBy(x => x.Conta)
+                .ToListAsync();
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using FinancasCasal.Models.Enums;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FinancasCasal.Models
 {
@@ -34,6 +35,11 @@ namespace FinancasCasal.Models
         public void RemoverTransacao(Transacao transacao)
         {
             Transacoes.Remove(transacao);
+        }
+
+        public double TotalTransacoes(DateTime inicio, DateTime fim)
+        {
+            return Transacoes.Where(ts => ts.Data >= inicio && ts.Data <= fim).Sum(ts => ts.Valor);
         }
     }
 }

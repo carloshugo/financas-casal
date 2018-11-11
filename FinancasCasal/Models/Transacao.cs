@@ -1,22 +1,34 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace FinancasCasal.Models
 {
     public class Transacao
     {
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [StringLength(250, MinimumLength = 3, ErrorMessage = "O tamanho do {0} deve ser entre {2} e {1}")]
         public string Nome { get; set; }
+
+        [DataType(DataType.Currency)]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public double Valor { get; private set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Data { get; set; }
+
         public Despesa Despesa { get; set; }
         public Fundo Fundo { get; set; }
         public Conta Conta { get; set; }
+        public bool Debito { get; set; }
         public bool Efetivada { get; set; }
 
         public Transacao()
         {
         }
 
-        public Transacao(int id, string nome, double valor, DateTime data, Conta conta, bool efetivada)
+        public Transacao(int id, string nome, double valor, DateTime data, Conta conta, bool debito, bool efetivada)
         {
             Id = id;
             Nome = nome;
@@ -26,7 +38,7 @@ namespace FinancasCasal.Models
             Efetivada = efetivada;
         }
 
-        public Transacao(int id, string nome, double valor, DateTime data, Despesa despesa, Conta conta, bool efetivada)
+        public Transacao(int id, string nome, double valor, DateTime data, Despesa despesa, Conta conta, bool debito, bool efetivada)
         {
             Id = id;
             Nome = nome;
@@ -37,7 +49,7 @@ namespace FinancasCasal.Models
             Efetivada = efetivada;
         }
 
-        public Transacao(int id, string nome, double valor, DateTime data, Fundo fundo, Conta conta, bool efetivada)
+        public Transacao(int id, string nome, double valor, DateTime data, Fundo fundo, Conta conta, bool debito, bool efetivada)
         {
             Id = id;
             Nome = nome;
@@ -48,7 +60,7 @@ namespace FinancasCasal.Models
             Efetivada = efetivada;
         }
 
-        public Transacao(int id, string nome, double valor, DateTime data, Despesa despesa, Fundo fundo, Conta conta, bool efetivada)
+        public Transacao(int id, string nome, double valor, DateTime data, Despesa despesa, Fundo fundo, Conta conta, bool debito, bool efetivada)
         {
             Id = id;
             Nome = nome;
@@ -66,9 +78,25 @@ namespace FinancasCasal.Models
             {
                 if (Fundo != null)
                 {
-                    Fundo.Saldo += Valor;
+                    if (Debito)
+                    {
+                        Fundo.Saldo -= Valor;
+
+                    }
+                    else
+                    {
+                        Fundo.Saldo += Valor;
+                    }
                 }
-                Conta.Saldo += Valor;
+                if (Debito)
+                {
+                    Conta.Saldo -= Valor;
+                }
+                else
+                {
+                    Conta.Saldo += Valor;
+
+                }
                 Efetivada = true;
             }
         }

@@ -37,9 +37,20 @@ namespace FinancasCasal.Controllers
             return View(result);
         }
 
-        public IActionResult BuscaPorGrupo()
+        public async Task<IActionResult> BuscaPorGrupo(DateTime? inicio, DateTime? fim)
         {
-            return View();
+            if (!inicio.HasValue)
+            {
+                inicio = new DateTime(DateTime.Now.Year, 1, 1);
+            }
+            if (!fim.HasValue)
+            {
+                fim = DateTime.Now;
+            }
+            ViewData["inicio"] = inicio.Value.ToString("yyyy-MM-dd");
+            ViewData["fim"] = fim.Value.ToString("yyyy-MM-dd");
+            var result = await _registrosTransacaoService.ObterGrupoPorDataAsync(inicio, fim);
+            return View(result);
         }
     }
 }
