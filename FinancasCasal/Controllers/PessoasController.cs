@@ -7,17 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FinancasCasal.Models;
 using FinancasCasal.Models.ViewModels;
+using FinancasCasal.Services.Exceptions;
+using FinancasCasal.Services;
+using System.Diagnostics;
 
 namespace FinancasCasal.Controllers
 {
     public class PessoasController : Controller
     {
         private readonly FinancasCasalContext _context;
-        
+        private readonly PessoaService _pessoaService;
 
-        public PessoasController(FinancasCasalContext context)
+        public PessoasController(FinancasCasalContext context, PessoaService pessoaService)
         {
             _context = context;
+            _pessoaService = pessoaService;
         }
 
         // GET: Pessoas
@@ -140,15 +144,30 @@ namespace FinancasCasal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pessoa = await _context.Pessoa.FindAsync(id);
-            _context.Pessoa.Remove(pessoa);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _pessoaService.RemoverAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (IntegrityException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
 
         private bool PessoaExists(int id)
         {
             return _context.Pessoa.Any(e => e.Id == id);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
         }
     }
 }
