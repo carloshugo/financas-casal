@@ -9,22 +9,22 @@ using FinancasCasal.Models;
 
 namespace FinancasCasal.Controllers
 {
-    public class TransacaosController : Controller
+    public class DespesasController : Controller
     {
         private readonly FinancasCasalContext _context;
 
-        public TransacaosController(FinancasCasalContext context)
+        public DespesasController(FinancasCasalContext context)
         {
             _context = context;
         }
 
-        // GET: Transacaos
+        // GET: Despesas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Transacao.ToListAsync());
+            return View(await _context.Despesa.ToListAsync());
         }
 
-        // GET: Transacaos/Details/5
+        // GET: Despesas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace FinancasCasal.Controllers
                 return NotFound();
             }
 
-            var transacao = await _context.Transacao
+            var despesa = await _context.Despesa
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (transacao == null)
+            if (despesa == null)
             {
                 return NotFound();
             }
 
-            return View(transacao);
+            return View(despesa);
         }
 
-        // GET: Transacaos/Create
+        // GET: Despesas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Transacaos/Create
+        // POST: Despesas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Valor,Data,Debito,Efetivada")] Transacao transacao)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Valor,Inicio,Fim")] Despesa despesa)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(transacao);
+                _context.Add(despesa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(transacao);
+            return View(despesa);
         }
 
-        // GET: Transacaos/Edit/5
+        // GET: Despesas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace FinancasCasal.Controllers
                 return NotFound();
             }
 
-            var transacao = await _context.Transacao.FindAsync(id);
-            if (transacao == null)
+            var despesa = await _context.Despesa.FindAsync(id);
+            if (despesa == null)
             {
                 return NotFound();
             }
-            return View(transacao);
+            return View(despesa);
         }
 
-        // POST: Transacaos/Edit/5
+        // POST: Despesas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Valor,Data,Debito,Efetivada")] Transacao transacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Valor,Inicio,Fim")] Despesa despesa)
         {
-            if (id != transacao.Id)
+            if (id != despesa.Id)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace FinancasCasal.Controllers
             {
                 try
                 {
-                    _context.Update(transacao);
+                    _context.Update(despesa);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TransacaoExists(transacao.Id))
+                    if (!DespesaExists(despesa.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace FinancasCasal.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(transacao);
+            return View(despesa);
         }
 
-        // GET: Transacaos/Delete/5
+        // GET: Despesas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace FinancasCasal.Controllers
                 return NotFound();
             }
 
-            var transacao = await _context.Transacao
+            var despesa = await _context.Despesa
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (transacao == null)
+            if (despesa == null)
             {
                 return NotFound();
             }
 
-            return View(transacao);
+            return View(despesa);
         }
 
-        // POST: Transacaos/Delete/5
+        // POST: Despesas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var transacao = await _context.Transacao.FindAsync(id);
-            _context.Transacao.Remove(transacao);
+            var despesa = await _context.Despesa.FindAsync(id);
+            _context.Despesa.Remove(despesa);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TransacaoExists(int id)
+        private bool DespesaExists(int id)
         {
-            return _context.Transacao.Any(e => e.Id == id);
+            return _context.Despesa.Any(e => e.Id == id);
         }
     }
 }

@@ -1,0 +1,52 @@
+﻿@model FinancasCasal.Models.Conta
+
+@{
+    ViewData["Title"] = "Criar";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>Conta</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Banco" class="control-label"></label>
+                <input asp-for="Banco" class="form-control" />
+                <span asp-validation-for="Banco" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoAgencia" class="control-label"></label>
+                <input asp-for="CodigoAgencia" class="form-control" />
+                <span asp-validation-for="CodigoAgencia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoConta" class="control-label"></label>
+                <input asp-for="CodigoConta" class="form-control" />
+                <span asp-validation-for="CodigoConta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoConta" class="control-label"></label>
+                <select asp-for="TipoConta" asp-items="Html.GetEnumSelectList<FinancasCasal.Models.Enums.TipoConta>()" class="form-control">
+                    <option selected="selected" value="">Selecione</option>
+                </select>
+                <span asp-validation-for="TipoConta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Saldo" class="control-label"></label>
+                <input asp-for="Saldo" class="form-control" />
+                <span asp-validation-for="Saldo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+

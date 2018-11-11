@@ -1,0 +1,58 @@
+﻿@model IEnumerable<FinancasCasal.Models.Conta>
+
+@{
+    ViewData["Title"] = "Contas";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Create">Novo Cadastro</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Banco)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoAgencia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoConta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoConta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Saldo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Banco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoAgencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoConta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoConta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Saldo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

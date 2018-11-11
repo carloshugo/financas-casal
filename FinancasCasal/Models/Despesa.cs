@@ -5,7 +5,7 @@ namespace FinancasCasal.Models
 
     public class Despesa
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
         public double Valor { get; set; }
         public DateTime Inicio { get; set; }

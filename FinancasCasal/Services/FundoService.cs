@@ -18,7 +18,7 @@ namespace FinancasCasal.Services
 
         public async Task<List<Fundo>> ObterTodosAsync()
         {
-            return await _context.Fundo.ToListAsync();
+            return await _context.Fundo.Include(obj => obj.Pessoa).ToListAsync();
         }
 
         public async Task InserirAsync(Fundo fundo)
