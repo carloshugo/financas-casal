@@ -24,7 +24,7 @@ namespace FinancasCasal.Models
         [Display(Name = "Tipo da Conta")]
         public TipoConta TipoConta { get; set; }
 
-        [Required(ErrorMessage = "Informe o Saldo Inicial da Conta")]
+        [DataType(DataType.Currency)]
         public double Saldo { get; set; }
 
         public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
