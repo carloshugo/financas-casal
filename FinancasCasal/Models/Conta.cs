@@ -28,6 +28,7 @@ namespace FinancasCasal.Models
         public double Saldo { get; set; }
 
         public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
+        public ICollection<Fundo> Fundos { get; set; } = new List<Fundo>();
 
         public Conta()
         {

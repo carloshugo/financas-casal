@@ -48,6 +48,7 @@ namespace FinancasCasal
             services.AddScoped<FundoService>();
             services.AddScoped<PessoaService>();
             services.AddScoped<RegistrosTransacaoService>();
+            services.AddScoped<TransacaoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

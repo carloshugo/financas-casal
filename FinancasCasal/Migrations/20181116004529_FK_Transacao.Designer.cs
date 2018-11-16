@@ -3,14 +3,16 @@ using System;
 using FinancasCasal.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinancasCasal.Migrations
 {
     [DbContext(typeof(FinancasCasalContext))]
-    partial class FinancasCasalContextModelSnapshot : ModelSnapshot
+    [Migration("20181116004529_FK_Transacao")]
+    partial class FK_Transacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,8 +65,6 @@ namespace FinancasCasal.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ContaId");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(250);
@@ -74,8 +74,6 @@ namespace FinancasCasal.Migrations
                     b.Property<double>("Saldo");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ContaId");
 
                     b.HasIndex("PessoaId");
 
@@ -130,11 +128,6 @@ namespace FinancasCasal.Migrations
 
             modelBuilder.Entity("FinancasCasal.Models.Fundo", b =>
                 {
-                    b.HasOne("FinancasCasal.Models.Conta", "Conta")
-                        .WithMany("Fundos")
-                        .HasForeignKey("ContaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("FinancasCasal.Models.Pessoa", "Pessoa")
                         .WithMany("Fundos")
                         .HasForeignKey("PessoaId")

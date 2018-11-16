@@ -25,6 +25,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Pessoa)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Conta.Banco)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Conta.TipoConta)
+            </th>
 
             <th>
 
@@ -45,10 +51,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Pessoa.Nome)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Conta.Banco)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Conta.TipoConta)
+                </td>
 
                 <td>
                     <a asp-action="Edicao" asp-route-id="@item.Id">Editar</a>
                     <a asp-action="Delecao" asp-route-id="@item.Id">Deletar</a>
+                    <a asp-action="Gastos" asp-route-id="@item.Id">Gastos</a>
                 </td>
             </tr>
         }

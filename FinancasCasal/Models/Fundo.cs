@@ -23,6 +23,10 @@ namespace FinancasCasal.Models
         [Display(Name = "Dono")]
         public int PessoaId { get; set; }
 
+        public Conta Conta { get; set; }
+        [Display(Name = "Conta")]
+        public int ContaId { get; set; }
+
         public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
 
         public Fundo()
@@ -30,12 +34,13 @@ namespace FinancasCasal.Models
 
         }
 
-        public Fundo(int id, string nome, double saldo, Pessoa dono)
+        public Fundo(int id, string nome, double saldo, Pessoa dono, Conta conta)
         {
             Id = id;
             Nome = nome;
             Saldo = saldo;
             Pessoa = dono;
+            Conta = conta;
         }
 
         public void AdicionarTransacao(Transacao transacao)

@@ -15,11 +15,13 @@ namespace FinancasCasal.Controllers
     {
         private readonly FundoService _fundoService;
         private readonly PessoaService _pessoaService;
+        private readonly TransacaoService _transacaoService;
 
-        public FundosController(FundoService fundoService, PessoaService pessoaService)
+        public FundosController(FundoService fundoService, PessoaService pessoaService, TransacaoService transacaoService)
         {
             _fundoService = fundoService;
             _pessoaService = pessoaService;
+            _transacaoService = transacaoService;
         }
 
         public async Task<IActionResult> Index()
@@ -126,6 +128,65 @@ namespace FinancasCasal.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
+        }
+
+        public async Task<IActionResult> Gastos(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não provido (null)" });
+            }
+            var obj = await _fundoService.ObterPorIdGastosAsync(id.Value);
+            if (obj == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
+            }
+            Transacao transacao = new Transacao()
+            {
+                Fundo = obj,
+                FundoId = obj.Id,
+                Conta = obj.Conta,
+                ContaId = obj.ContaId,
+                Debito = true,
+                Nome = "Jantar",
+                Valor = 44,
+                Data = DateTime.Now
+            };
+            FundoGastoViewModel viewModel = new FundoGastoViewModel { Fundo = obj, Transacao = transacao };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Gastos(Transacao transacao)
+        {
+            FundoGastoViewModel viewModel;
+            if (!ModelState.IsValid)
+            {
+                var obj = await _fundoService.ObterPorIdAsync(transacao.Fundo.Id);
+                Transacao t = new Transacao()
+                {
+                    Fundo = obj,
+                    FundoId = obj.Id,
+                    Conta = obj.Conta,
+                    ContaId = obj.ContaId,
+                    Debito = true
+                };
+                viewModel = new FundoGastoViewModel { Fundo = obj, Transacao = transacao };
+                return View(viewModel);
+            }
+            var fundo = await _fundoService.ObterPorIdGastosAsync(transacao.FundoId.Value);
+            await _transacaoService.InserirAsync(transacao);
+            transacao = new Transacao()
+            {
+                Fundo = fundo,
+                FundoId = fundo.Id,
+                Conta = fundo.Conta,
+                ContaId = fundo.ContaId,
+                Debito = true
+            };
+            viewModel = new FundoGastoViewModel { Fundo = fundo, Transacao = transacao };
+            return View(viewModel);
         }
 
         public IActionResult Error(string message)

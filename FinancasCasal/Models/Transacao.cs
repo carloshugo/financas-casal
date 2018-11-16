@@ -13,14 +13,24 @@ namespace FinancasCasal.Models
 
         [DataType(DataType.Currency)]
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public double Valor { get; private set; }
+        public double Valor { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Data { get; set; }
 
         public Despesa Despesa { get; set; }
+        [Display(Name = "Despesa")]
+        public int? DespesaId { get; set; }
+
         public Fundo Fundo { get; set; }
+        [Display(Name = "Fundo")]
+        public int? FundoId { get; set; }
+
         public Conta Conta { get; set; }
+        [Display(Name = "Conta")]
+        public int ContaId { get; set; }
+
+        [Display(Name = "Débito")]
         public bool Debito { get; set; }
         public bool Efetivada { get; set; }
 

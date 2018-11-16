@@ -6,22 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FinancasCasal.Models;
+using FinancasCasal.Services;
 
 namespace FinancasCasal.Controllers
 {
     public class TransacaosController : Controller
     {
         private readonly FinancasCasalContext _context;
+        private readonly TransacaoService _transacaoService;
 
-        public TransacaosController(FinancasCasalContext context)
+        public TransacaosController(FinancasCasalContext context, TransacaoService transacaoService)
         {
             _context = context;
+            _transacaoService = transacaoService;
         }
 
         // GET: Transacaos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Transacao.ToListAsync());
+            return View(await _transacaoService.ObterTodosNaoEfetivadosAsync());
         }
 
         // GET: Transacaos/Details/5

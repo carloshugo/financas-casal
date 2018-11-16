@@ -29,7 +29,16 @@ namespace FinancasCasal.Services
 
         public async Task<Fundo> ObterPorIdAsync(int id)
         {
-            return await _context.Fundo.Include(obj => obj.Pessoa).FirstOrDefaultAsync(obj => obj.Id == id);
+            return await _context.Fundo.Include(obj => obj.Pessoa).Include(obj => obj.Conta).FirstOrDefaultAsync(obj => obj.Id == id);
+        }
+
+        public async Task<Fundo> ObterPorIdGastosAsync(int id)
+        {
+            return await _context.Fundo
+                .Include(obj => obj.Pessoa)
+                .Include(obj => obj.Conta)
+                .Include(obj => obj.Transacoes)
+                .FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
         public async Task RemoverAsync(int id)
