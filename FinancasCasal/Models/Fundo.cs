@@ -6,10 +6,11 @@ using System.Linq;
 namespace FinancasCasal.Models
 {
 
-    public class Fundo {
+    public class Fundo
+    {
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="O campo {0} é obrigatório")]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [StringLength(250, MinimumLength = 3, ErrorMessage = "O tamanho do {0} deve ser entre {2} e {1}")]
         public string Nome { get; set; }
 
@@ -51,6 +52,16 @@ namespace FinancasCasal.Models
         public double TotalTransacoes(DateTime inicio, DateTime fim)
         {
             return Transacoes.Where(ts => ts.Data >= inicio && ts.Data <= fim).Sum(ts => ts.Valor);
+        }
+
+        public void Debitar(double valor)
+        {
+            Saldo -= valor;
+        }
+
+        public void Creditar(double valor)
+        {
+            Saldo += valor;
         }
     }
 }

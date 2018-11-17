@@ -1,4 +1,4 @@
-﻿@model FinancasCasal.Models.ViewModels.FundoGastoViewModel
+﻿@model FinancasCasal.Models.Transacao
 @{
     ViewData["Title"] = "Gastos";
 }
@@ -9,56 +9,49 @@
     <div class="col-md-4">
         <form asp-action="Gastos">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Transacao.FundoId"/>
-            <input type="hidden" asp-for="Transacao.ContaId"/>
-            <input type="hidden" asp-for="Transacao.Debito"/>
+            <input type="hidden" asp-for="FundoId" />
+            <input type="hidden" asp-for="ContaId" />
+            <input type="hidden" asp-for="Debito" />
+            <input type="hidden" asp-for="Efetivada" />
             <div class="form-group">
-                <label asp-for="Transacao.Nome" class="control-label"></label>
-                <input asp-for="Transacao.Nome" class="form-control" />
-                <span asp-validation-for="Transacao.Nome" class="text-danger"></span>
+                <label asp-for="Fundo"></label>
+                <label>- @Html.DisplayFor(model => model.Fundo.Nome)</label>
+                <label>- @Html.DisplayFor(model => model.Fundo.Pessoa.Nome)</label>
             </div>
             <div class="form-group">
-                <label asp-for="Transacao.Valor" class="control-label"></label>
-                <input asp-for="Transacao.Valor" class="form-control" />
-                <span asp-validation-for="Transacao.Valor" class="text-danger"></span>
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Transacao.Data" class="control-label"></label>
-                <input asp-for="Transacao.Data" class="form-control" />
-                <span asp-validation-for="Transacao.Data" class="text-danger"></span>
+                <label asp-for="Valor" class="control-label"></label>
+                <input asp-for="Valor" class="form-control" />
+                <span asp-validation-for="Valor" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Transacao.Efetivada" /> @Html.DisplayNameFor(model => model.Transacao.Efetivada)
-                    </label>
-                </div>
+                <label asp-for="Data" class="control-label"></label>
+                <input type="date" asp-for="Data" class="form-control" />
+                <span asp-validation-for="Data" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="CriarGasto" class="btn btn-default" />
+                <input type="submit" value="Criar" class="btn btn-default" />
+                <a asp-action="Index"> | Voltar</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Voltar</a>
 </div>
 
 <table class="table table-striped table-hover">
     <thead>
         <tr class="success">
             <th>
-                @Html.DisplayNameFor(model => model.Transacao.Nome)
+                @Html.DisplayNameFor(model => model.Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Transacao.Valor)
+                @Html.DisplayNameFor(model => model.Valor)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Transacao.Data)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Transacao.Efetivada)
+                @Html.DisplayNameFor(model => model.Data)
             </th>
         </tr>
     </thead>
@@ -77,10 +70,10 @@
                     @Html.DisplayFor(modelItem => item.Data)
                 </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Efetivada)
-                </td>
             </tr>
         }
     </tbody>
 </table>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

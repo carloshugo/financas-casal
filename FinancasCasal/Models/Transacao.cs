@@ -84,30 +84,29 @@ namespace FinancasCasal.Models
 
         public void Efetivar()
         {
-            if (!Efetivada)
+            if (Efetivada)
             {
                 if (Fundo != null)
                 {
                     if (Debito)
                     {
-                        Fundo.Saldo -= Valor;
-
+                        Fundo.Debitar(Valor);
                     }
                     else
                     {
-                        Fundo.Saldo += Valor;
+                        Fundo.Creditar(Valor);
                     }
                 }
+
                 if (Debito)
                 {
-                    Conta.Saldo -= Valor;
+                    Conta.Debitar(Valor);
                 }
                 else
                 {
-                    Conta.Saldo += Valor;
+                    Conta.Creditar(Valor);
 
                 }
-                Efetivada = true;
             }
         }
     }

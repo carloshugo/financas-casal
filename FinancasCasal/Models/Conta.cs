@@ -6,10 +6,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinancasCasal.Models
 {
-    public class Conta {
+    public class Conta
+    {
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="Informe o Nome do Banco")]
+        public string Apelido { get; set; }
+
+        [Required(ErrorMessage = "Informe o Nome do Banco")]
         public string Banco { get; set; }
 
         [Required(ErrorMessage = "Informe o Código da Agência")]
@@ -34,9 +37,10 @@ namespace FinancasCasal.Models
         {
         }
 
-        public Conta(int id, string banco, string codigoAgencia, string codigoConta, TipoConta tipoConta)
+        public Conta(int id, string apelido, string banco, string codigoAgencia, string codigoConta, TipoConta tipoConta)
         {
             Id = id;
+            Apelido = apelido;
             Banco = banco;
             CodigoAgencia = codigoAgencia;
             CodigoConta = codigoConta;
@@ -56,6 +60,16 @@ namespace FinancasCasal.Models
         public double TotalTransacoes(DateTime inicio, DateTime fim)
         {
             return Transacoes.Where(ts => ts.Data >= inicio && ts.Data <= fim).Sum(ts => ts.Valor);
+        }
+
+        public void Debitar(double valor)
+        {
+            Saldo -= valor;
+        }
+
+        public void Creditar(double valor)
+        {
+            Saldo += valor;
         }
     }
 }

@@ -6,6 +6,6 @@ namespace FinancasCasal.Models.ViewModels
     {
         public Fundo Fundo { get; set; }
         public ICollection<Pessoa> Pessoas { get; set; }
-
+        public ICollection<Conta> Contas { get; set; }
     }
 }

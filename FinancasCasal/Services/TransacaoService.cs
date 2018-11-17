@@ -23,8 +23,31 @@ namespace FinancasCasal.Services
 
         public async Task InserirAsync(Transacao transacao)
         {
+            if (transacao.Efetivada)
+            {
+                transacao.Efetivar();
+                _context.Update(transacao.Conta);
+                if (transacao.Fundo != null)
+                {
+                    _context.Update(transacao.Fundo);
+                }
+            }
             _context.Add(transacao);
             await _context.SaveChangesAsync();
+        }
+
+        public Transacao ObterInstanciaGastoFundo(Fundo fundo)
+        {
+            Transacao transacao = new Transacao()
+            {
+                Fundo = fundo,
+                FundoId = fundo.Id,
+                Conta = fundo.Conta,
+                ContaId = fundo.ContaId,
+                Debito = true,
+                Efetivada = true
+            };
+            return transacao;
         }
 
     }
