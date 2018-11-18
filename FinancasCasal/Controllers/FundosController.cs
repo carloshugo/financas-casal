@@ -154,6 +154,8 @@ namespace FinancasCasal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Gastos(Transacao transacao)
         {
+            transacao.Id = 0;
+
             if (!ModelState.IsValid)
             {
                 var obj = await _fundoService.ObterPorIdAsync(transacao.FundoId.Value);
@@ -165,9 +167,7 @@ namespace FinancasCasal.Controllers
             transacao.Fundo = fundo;
             transacao.Conta = conta;
             await _transacaoService.InserirAsync(transacao);
-            fundo = await _fundoService.ObterPorIdGastosAsync(transacao.Fundo.Id);
-            Transacao novaTransacao = _transacaoService.ObterInstanciaGastoFundo(fundo);
-            return View(novaTransacao);
+            return RedirectToAction(nameof(Gastos), fundo.Id);
         }
 
         public IActionResult Error(string message)

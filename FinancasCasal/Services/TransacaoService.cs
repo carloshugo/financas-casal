@@ -45,7 +45,8 @@ namespace FinancasCasal.Services
                 Conta = fundo.Conta,
                 ContaId = fundo.ContaId,
                 Debito = true,
-                Efetivada = true
+                Efetivada = true,
+                Data = DateTime.Now
             };
             return transacao;
         }
