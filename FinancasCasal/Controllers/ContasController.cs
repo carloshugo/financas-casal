@@ -6,16 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FinancasCasal.Models;
+using FinancasCasal.Services;
+using FinancasCasal.Models.ViewModels;
+using System.Diagnostics;
 
 namespace FinancasCasal.Controllers
 {
     public class ContasController : Controller
     {
         private readonly FinancasCasalContext _context;
+        private readonly TransacaoService _transacaoService;
+        private readonly ContaService _contaService;
 
-        public ContasController(FinancasCasalContext context)
+        public ContasController(FinancasCasalContext context, TransacaoService transacaoService, ContaService contaService)
         {
             _context = context;
+            _transacaoService = transacaoService;
+            _contaService = contaService;
         }
 
         // GET: Contas
@@ -147,6 +154,50 @@ namespace FinancasCasal.Controllers
         private bool ContaExists(int id)
         {
             return _context.Conta.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> Gastos(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não provido (null)" });
+            }
+            var obj = await _contaService.ObterPorIdGastosAsync(id.Value);
+            if (obj == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
+            }
+            Transacao transacao = _transacaoService.ObterInstanciaGastoConta(obj);
+            return View(transacao);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Gastos(Transacao transacao)
+        {
+            transacao.Id = 0;
+            Conta conta = null;
+            if (!ModelState.IsValid)
+            {
+                conta = await _contaService.ObterPorIdAsync(transacao.ContaId);
+                transacao = _transacaoService.ObterInstanciaGastoConta(conta);
+                return View(transacao);
+            }
+            conta = await _contaService.ObterPorIdAsync(transacao.ContaId);
+            transacao.Conta = conta;
+            await _transacaoService.InserirAsync(transacao);
+            return RedirectToAction(nameof(Gastos), conta.Id);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using FinancasCasal.Services.Exceptions;
 using System.Threading.Tasks;
+using System;
 
 namespace FinancasCasal.Services
 {
@@ -18,7 +19,7 @@ namespace FinancasCasal.Services
 
         public async Task<List<Fundo>> ObterTodosAsync()
         {
-            return await _context.Fundo.Include(obj => obj.Pessoa).ToListAsync();
+            return await _context.Fundo.Include(obj => obj.Pessoa).Include(obj => obj.Conta).ToListAsync();
         }
 
         public async Task InserirAsync(Fundo fundo)

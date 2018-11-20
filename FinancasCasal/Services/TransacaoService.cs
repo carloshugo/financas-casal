@@ -51,5 +51,18 @@ namespace FinancasCasal.Services
             return transacao;
         }
 
+        public Transacao ObterInstanciaGastoConta(Conta conta)
+        {
+            Transacao transacao = new Transacao()
+            {
+                Conta = conta,
+                ContaId = conta.Id,
+                Debito = true,
+                Efetivada = true,
+                Data = DateTime.Now
+            };
+            return transacao;
+        }
+
     }
 }

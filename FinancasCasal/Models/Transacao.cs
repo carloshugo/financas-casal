@@ -11,7 +11,8 @@ namespace FinancasCasal.Models
         [StringLength(250, MinimumLength = 3, ErrorMessage = "O tamanho do {0} deve ser entre {2} e {1}")]
         public string Nome { get; set; }
 
-        [DataType(DataType.Currency)]
+        [Display(Name = "Valor R$")]
+        [DisplayFormat(DataFormatString = "{0:N2}")]
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public double Valor { get; set; }
 

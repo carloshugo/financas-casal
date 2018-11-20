@@ -27,7 +27,8 @@ namespace FinancasCasal.Models
         [Display(Name = "Tipo da Conta")]
         public TipoConta TipoConta { get; set; }
 
-        [DataType(DataType.Currency)]
+        [Display(Name = "Saldo R$")]
+        [DisplayFormat(DataFormatString = "{0:N2}")]
         public double Saldo { get; set; }
 
         public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();

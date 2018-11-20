@@ -11,15 +11,13 @@
     <div class="col-md-4">
         <form asp-action="Gastos">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="FundoId" />
             <input type="hidden" asp-for="ContaId" />
             <input type="hidden" asp-for="Debito" />
             <input type="hidden" asp-for="Efetivada" />
             <div class="form-group">
                 <label asp-for="Fundo"></label>
-                <label>- @Html.DisplayFor(model => model.Fundo.Nome)</label>
-                <label>- @Html.DisplayFor(model => model.Fundo.Pessoa.Nome)</label>
-                <label>| @Html.DisplayFor(model => model.Fundo.Saldo)</label>
+                <label>- @Html.DisplayFor(model => model.Conta.Apelido)</label>
+                <label>| @Html.DisplayFor(model => model.Conta.Saldo)</label>
             </div>
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
@@ -59,7 +57,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Fundo.Transacoes)
+        @foreach (var item in Model.Conta.Transacoes)
         {
             <tr>
                 <td>

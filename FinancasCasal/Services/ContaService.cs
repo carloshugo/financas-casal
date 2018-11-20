@@ -25,5 +25,12 @@ namespace FinancasCasal.Services
             return await _context.Conta.FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
+        public async Task<Conta> ObterPorIdGastosAsync(int id)
+        {
+            return await _context.Conta
+                .Include(obj => obj.Transacoes)
+                .FirstOrDefaultAsync(obj => obj.Id == id);
+        }
+
     }
 }
