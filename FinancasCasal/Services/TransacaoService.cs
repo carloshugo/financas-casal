@@ -63,6 +63,20 @@ namespace FinancasCasal.Services
             };
             return transacao;
         }
+        public Transacao ObterInstanciaGastoDespesa(Despesa despesa)
+        {
+            Transacao transacao = new Transacao()
+            {
+                Despesa = despesa,
+                DespesaId = despesa.Id,
+                Data = DateTime.Now,
+                Nome = despesa.Nome + " "+DateTime.Now.Month+"/"+ DateTime.Now.Year,
+                Valor = despesa.Valor,
+                Debito = true,
+                Efetivada = true
+            };
+            return transacao;
+        }
 
     }
 }

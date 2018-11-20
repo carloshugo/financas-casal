@@ -11,7 +11,8 @@ namespace FinancasCasal.Models
 
         public string Nome { get; set; }
 
-        [DataType(DataType.Currency)]
+        [Display(Name = "Valor R$")]
+        [DisplayFormat(DataFormatString = "{0:N2}")]
         public double Valor { get; set; }
 
         [Display(Name = "Início")]

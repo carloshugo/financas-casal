@@ -6,16 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FinancasCasal.Models;
+using FinancasCasal.Services;
+using FinancasCasal.Models.ViewModels;
+using System.Diagnostics;
 
 namespace FinancasCasal.Controllers
 {
     public class DespesasController : Controller
     {
         private readonly FinancasCasalContext _context;
+        private readonly DespesaService _despesaService;
+        private readonly TransacaoService _transacaoService;
+        private readonly ContaService _contaService;
 
-        public DespesasController(FinancasCasalContext context)
+        public DespesasController(FinancasCasalContext context, TransacaoService transacaoService, ContaService contaService, DespesaService despesaService)
         {
             _context = context;
+            _transacaoService = transacaoService;
+            _contaService = contaService;
+            _despesaService = despesaService;
         }
 
         // GET: Despesas
@@ -144,9 +153,64 @@ namespace FinancasCasal.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Gastos(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não provido (null)" });
+            }
+            var obj = await _despesaService.ObterPorIdGastosAsync(id.Value);
+            if (obj == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
+            }
+
+            Transacao transacao = _transacaoService.ObterInstanciaGastoDespesa(obj);
+
+            var contas = await _contaService.ObterTodosAsync();
+
+            var viewModel = new TransacaoFormViewModel { Transacao = transacao, Contas = contas };
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Gastos(Transacao transacao)
+        {
+            transacao.Id = 0;
+            Despesa despesa = null;
+            if (!ModelState.IsValid)
+            {
+                var obj = await _despesaService.ObterPorIdAsync(transacao.FundoId.Value);
+                transacao = _transacaoService.ObterInstanciaGastoDespesa(transacao.Despesa);
+                List<Conta> contas = await _contaService.ObterTodosAsync();
+                TransacaoFormViewModel viewModel = new TransacaoFormViewModel { Transacao = transacao, Contas = contas };
+                return View(viewModel);
+            }
+            despesa = await _despesaService.ObterPorIdAsync(transacao.DespesaId.Value);
+            var conta = await _contaService.ObterPorIdAsync(transacao.ContaId);
+            transacao.Despesa = despesa;
+            transacao.Conta = conta;
+            await _transacaoService.InserirAsync(transacao);
+            return RedirectToAction(nameof(Gastos), despesa.Id);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
+        }
+
         private bool DespesaExists(int id)
         {
             return _context.Despesa.Any(e => e.Id == id);
         }
+
+
     }
 }
