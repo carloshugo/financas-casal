@@ -38,7 +38,7 @@ namespace FinancasCasal.Services
             return await _context.Fundo
                 .Include(obj => obj.Pessoa)
                 .Include(obj => obj.Conta)
-                .Include(obj => obj.Transacoes)
+                .Include(obj => obj.Transacoes.Where(t => t.Efetivada))
                 .FirstOrDefaultAsync(obj => obj.Id == id);
         }
 

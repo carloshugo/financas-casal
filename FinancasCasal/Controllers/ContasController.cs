@@ -190,6 +190,41 @@ namespace FinancasCasal.Controllers
             return RedirectToAction(nameof(Gastos), conta.Id);
         }
 
+
+        public async Task<IActionResult> Entradas(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não provido (null)" });
+            }
+            var obj = await _contaService.ObterPorIdGastosAsync(id.Value);
+            if (obj == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
+            }
+            Transacao transacao = _transacaoService.ObterInstanciaEntradaConta(obj);
+            return View(transacao);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Entradas(Transacao transacao)
+        {
+            transacao.Id = 0;
+            Conta conta = null;
+            if (!ModelState.IsValid)
+            {
+                conta = await _contaService.ObterPorIdAsync(transacao.ContaId);
+                transacao = _transacaoService.ObterInstanciaEntradaConta(conta);
+                return View(transacao);
+            }
+            conta = await _contaService.ObterPorIdAsync(transacao.ContaId);
+            transacao.Conta = conta;
+            await _transacaoService.InserirAsync(transacao);
+            return RedirectToAction(nameof(Gastos), conta.Id);
+        }
+
         public IActionResult Error(string message)
         {
             var viewModel = new ErrorViewModel
