@@ -51,6 +51,21 @@ namespace FinancasCasal.Services
             return transacao;
         }
 
+        public Transacao ObterInstanciaEntradaFundo(Fundo fundo)
+        {
+            Transacao transacao = new Transacao()
+            {
+                Fundo = fundo,
+                FundoId = fundo.Id,
+                Conta = fundo.Conta,
+                ContaId = fundo.ContaId,
+                Debito = false,
+                Efetivada = true,
+                Data = DateTime.Now
+            };
+            return transacao;
+        }
+
         public Transacao ObterInstanciaGastoConta(Conta conta)
         {
             Transacao transacao = new Transacao()
@@ -84,7 +99,7 @@ namespace FinancasCasal.Services
                 Despesa = despesa,
                 DespesaId = despesa.Id,
                 Data = DateTime.Now,
-                Nome = despesa.Nome + " "+DateTime.Now.Month+"/"+ DateTime.Now.Year,
+                Nome = despesa.Nome + " " + DateTime.Now.Month + "/" + DateTime.Now.Year,
                 Valor = despesa.Valor,
                 Debito = true,
                 Efetivada = true

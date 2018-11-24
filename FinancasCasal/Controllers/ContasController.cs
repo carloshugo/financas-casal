@@ -222,7 +222,7 @@ namespace FinancasCasal.Controllers
             conta = await _contaService.ObterPorIdAsync(transacao.ContaId);
             transacao.Conta = conta;
             await _transacaoService.InserirAsync(transacao);
-            return RedirectToAction(nameof(Gastos), conta.Id);
+            return RedirectToAction(nameof(Entradas), conta.Id);
         }
 
         public IActionResult Error(string message)
